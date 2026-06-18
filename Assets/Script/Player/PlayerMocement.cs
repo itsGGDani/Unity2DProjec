@@ -4,12 +4,12 @@ using Unity.GraphToolkit.Editor;
 using UnityEngine;
 
 public class PlayerMocement : MonoBehaviour
-{
+{   
+    private GameObject fireballPrefab;
     [SerializeField] public float moveSpeed = 5f;
     [SerializeField] public float jumpForce = 10f;
     private bool isGrounded;
     private Rigidbody2D rb;
-    private BoxCollider2D boxCollider2D;
     [SerializeField] public Animator animator;
     private SpriteRenderer spriteRenderer;
 
@@ -18,7 +18,6 @@ public class PlayerMocement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        boxCollider2D = rb.GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
@@ -42,6 +41,7 @@ public class PlayerMocement : MonoBehaviour
 
         if(moveInput > 0){
             spriteRenderer.flipX = false;
+
         }else if(moveInput < 0)
         {
             spriteRenderer.flipX = true;
