@@ -1,40 +1,19 @@
-<<<<<<< HEAD
-using System;
-using System.IO;
-using UnityEngine;
-
-public class PlayerMocement : MonoBehaviour
-{
-=======
-   using System;
-using System.IO;
-using Unity.GraphToolkit.Editor;
 using UnityEngine;
 
 public class PlayerMocement : MonoBehaviour
 {   
->>>>>>> dedec96f6f892b30fc7038ba06f887e9bc1e2be1
     [SerializeField] public float moveSpeed = 5f;
     [SerializeField] public float jumpForce = 10f;
     private bool isGrounded;
     private Rigidbody2D rb;
-<<<<<<< HEAD
-    private BoxCollider2D boxCollider2D;
-    [SerializeField] public Animator animator;
-=======
     [SerializeField] public Animator animator;
     private SpriteRenderer spriteRenderer;
->>>>>>> dedec96f6f892b30fc7038ba06f887e9bc1e2be1
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-<<<<<<< HEAD
-        boxCollider2D = rb.GetComponent<BoxCollider2D>();
-=======
         spriteRenderer = GetComponent<SpriteRenderer>();
->>>>>>> dedec96f6f892b30fc7038ba06f887e9bc1e2be1
     }
 
     // Update is called once per frame
@@ -47,23 +26,15 @@ public class PlayerMocement : MonoBehaviour
         if(moveInput == 0){
             animator.SetBool("isRunning", false);
         }
-<<<<<<< HEAD
         else
         {
             animator.SetBool("isRunning", true);
         }
-=======
-        else{
-            animator.SetBool("isRunning", true);
-        }
 
->>>>>>> dedec96f6f892b30fc7038ba06f887e9bc1e2be1
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
-<<<<<<< HEAD
-=======
 
         if(moveInput > 0){
             spriteRenderer.flipX = false;
@@ -80,9 +51,7 @@ public class PlayerMocement : MonoBehaviour
         {
            animator.ResetTrigger("isShooting");
         }
->>>>>>> dedec96f6f892b30fc7038ba06f887e9bc1e2be1
     }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
