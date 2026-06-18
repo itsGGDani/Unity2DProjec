@@ -1,5 +1,6 @@
-using System;
+   using System;
 using System.IO;
+using Unity.GraphToolkit.Editor;
 using UnityEngine;
 
 public class PlayerMocement : MonoBehaviour
@@ -10,11 +11,13 @@ public class PlayerMocement : MonoBehaviour
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider2D;
     [SerializeField] public Animator animator;
+    private SpriteRenderer spriteRenderer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         boxCollider2D = rb.GetComponent<BoxCollider2D>();
     }
 
@@ -28,13 +31,28 @@ public class PlayerMocement : MonoBehaviour
         if(moveInput == 0){
             animator.SetBool("isRunning", false);
         }
-        else
-        {
+        else{
             animator.SetBool("isRunning", true);
         }
+
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        }
+
+        if(moveInput > 0){
+            spriteRenderer.flipX = false;
+        }else if(moveInput < 0)
+        {
+            spriteRenderer.flipX = true;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Q)) {
+            animator.SetTrigger("isShooting");
+        }
+        else
+        {
+           animator.ResetTrigger("isShooting");
         }
     }
 
