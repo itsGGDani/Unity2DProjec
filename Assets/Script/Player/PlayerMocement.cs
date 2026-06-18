@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class PlayerMocement : MonoBehaviour
 {   
-    private GameObject fireballPrefab;
     [SerializeField] public float moveSpeed = 5f;
     [SerializeField] public float jumpForce = 10f;
     private bool isGrounded;
