@@ -3,40 +3,84 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour
 {
     public LayerMask groundLayer;
+    public Transform player;
+    public float speed;
+
+
+    [SerializeField]
+    Transform target;
+    public float aggroRange;
+
     Rigidbody2D rb;
+    int dir = 1;
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        //groundLayer.value = 3;
     }
 
     // Update is called once per frame
     void Update()
     {
-        int dir = transform.localScale.x > 0 ? 1 : -1;
-
-        Vector2 fPos = (Vector2)transform.position + new Vector2(2 * dir, 0 * dir);
-
-        if (onGround(fPos))
+        if (target)
         {
-            Debug.Log("Hello World!");
-            transform.position = fPos;
+            float dst = (transform.position - target.position).magnitude;
 
-        } else
-        {
-            transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+            if (dst > aggroRange)
+            {
+                target = null;
+                return;
+            }
+
+            if (dst < 2)        // attack
+            {
+                rb.linearVelocity = Vector2.zero;
+                return;
+            }
+
+            int lastDir = dir;
+            dir = target.position.x > transform.position.x ? 1 : -1;
+            
+            if (dir != lastDir)
+            {
+                transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+                rb.linearVelocity = Vector2.zero;
+            }
         }
+        else
+        {
+            if (!onGround(transform.position, speed / 2))
+            {
+                transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+                dir *= -1;
+                rb.linearVelocity = Vector2.zero;
+            }
+
+            findTarget();
+        }
+        Vector2 mov = new Vector2(speed * dir, 0);
+
+        if (rb.linearVelocity.magnitude < speed)
+            rb.linearVelocity += mov;
+    }
+
+    public void findTarget()
+    {
+        float dst = (transform.position - player.position).magnitude;
+
+        if (dst < aggroRange)
+            target = player;
     }
 
 
-    public bool onGround(Vector2 pos)
+    public bool onGround(Vector2 pos, float offset)
     {
         RaycastHit2D hit = Physics2D.Raycast(
-            pos,
+            pos + new Vector2(offset * dir, 0),
             Vector2.down,
-            3,
+            4,
             groundLayer
         );
 
