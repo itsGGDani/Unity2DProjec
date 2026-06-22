@@ -27,7 +27,7 @@ public class player : MonoBehaviour
         }        
     }
 
-    void takeDmg(int damage)
+    public void takeDmg(int damage)
     {
         currentHealth -= damage;
         healthBar.setHealth(currentHealth);

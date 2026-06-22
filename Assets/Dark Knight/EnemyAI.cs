@@ -5,6 +5,7 @@ public class EnemyAI : MonoBehaviour
     public LayerMask groundLayer;
     public Transform player;
     public float speed;
+    public int atkDmg;
 
 
     [SerializeField]
@@ -37,6 +38,7 @@ public class EnemyAI : MonoBehaviour
             if (dst < 2)        // attack
             {
                 rb.linearVelocity = Vector2.zero;
+                attack();
                 return;
             }
 
@@ -87,4 +89,17 @@ public class EnemyAI : MonoBehaviour
         return hit.collider != null;
     }
 
+
+    public void attack()
+    {
+        player p = target.gameObject.GetComponent<player>();
+        if (p)
+        {
+            p.takeDmg(atkDmg);
+        }
+        else
+        {
+            Debug.Log("no player ");
+        }
+    }
 }
