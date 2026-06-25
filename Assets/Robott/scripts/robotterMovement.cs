@@ -28,6 +28,8 @@ public class robotterMovement : MonoBehaviour
         rb.linearVelocity = movement;
 
         SetDirection();
+
+        
     }
 
     private void SetDirection()
@@ -40,7 +42,7 @@ public class robotterMovement : MonoBehaviour
         }
 
         print("Current Direction: " + currentDirection);
-
+        print("Layermastk: " + LayerMask.GetMask("Default"));
         Debug.DrawRay(transform.position, Vector2.right * (halfWith + 0.1f), Color.red);
         Debug.DrawRay(transform.position, Vector2.left * (halfWith + 0.1f), Color.red);
     }
