@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class robotterMovement : MonoBehaviour
 {
+    public int health = 40;
     [SerializeField] private Rigidbody2D rb;
     private BoxCollider2D rbCollider;
     [SerializeField] SpriteRenderer spriteRenderer;
@@ -20,7 +21,7 @@ public class robotterMovement : MonoBehaviour
         currentDirection = startDirection;
     }
 
-    // Update is called once per frame
+    //Better because it does not ticks with the unity Engine, it will be more consistent with the physics engine
     void FixedUpdate()
     {
         movement.x = speed * currentDirection;
@@ -29,7 +30,15 @@ public class robotterMovement : MonoBehaviour
 
         SetDirection();
 
-        
+        if (currentDirection == 1)
+        {
+            spriteRenderer.flipX = false;
+        } else if(currentDirection == -1)
+        {
+            spriteRenderer.flipX = true;
+        }
+
+
     }
 
     private void SetDirection()
