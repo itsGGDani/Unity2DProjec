@@ -5,20 +5,19 @@ using UnityEngine;
 
 public class bullet : MonoBehaviour
 {
-    public GameObject gameObject;
-    public Vector2 direction = Vector2.right;
+    private GameObject gameObject;
+    private Vector2 direction = Vector2.right;
     private Rigidbody2D rb;
     public float speed = 100;
 
-    public SpriteRenderer renderer;
+    private SpriteRenderer renderer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        
+        renderer = GetComponent<SpriteRenderer>();
     }
-
 
     public void Start()
     {

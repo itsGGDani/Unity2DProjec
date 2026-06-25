@@ -4,13 +4,14 @@ public class shootingBullet : MonoBehaviour
 {
 
     public GameObject bulletPrefab;
+    public Transform bulletPos;
     public Transform sniperShootLeft;
     public Transform sniperShootRight;
 
     public int fireballSpeed = 100;
     public bool facing = true;
 
-
+    private float timer = 0;
     private void Awake()
     {
         //Um das drecks ding zu Finden
@@ -28,9 +29,21 @@ public class shootingBullet : MonoBehaviour
     void Start()
     {
 
-    // Update is called once per frame
+    }
     void Update()
     {
-        
+        timer += Time.deltaTime;
+
+        if (timer > 2)
+        {
+            timer = 0;
+            print("SKHDKJAHSDLKJ");
+            shoot();
+        }
+    }
+
+    void shoot()
+    {
+        Instantiate(bulletPrefab, bulletPos.position, Quaternion.identity);
     }
 }
