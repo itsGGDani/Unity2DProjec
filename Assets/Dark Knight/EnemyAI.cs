@@ -35,7 +35,7 @@ public class EnemyAI : MonoBehaviour
                 return;
             }
 
-            if (dst < 2)        // attack
+            if (dst < 10)        // attack
             {
                 rb.linearVelocity = Vector2.zero;
                 attack();

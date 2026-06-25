@@ -18,11 +18,9 @@ public class player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print("HHJSJHDKAJKHDKJHASDKJHSADHKKDJH");
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            print("hier aufgerudfe");
             takeDmg(20);
         }        
     }
