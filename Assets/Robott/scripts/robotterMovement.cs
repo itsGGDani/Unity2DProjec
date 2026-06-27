@@ -50,8 +50,6 @@ public class robotterMovement : MonoBehaviour
             currentDirection *= -1;
         }
 
-        print("Current Direction: " + currentDirection);
-        print("Layermastk: " + LayerMask.GetMask("Default"));
         Debug.DrawRay(transform.position, Vector2.right * (halfWith + 0.1f), Color.red);
         Debug.DrawRay(transform.position, Vector2.left * (halfWith + 0.1f), Color.red);
     }

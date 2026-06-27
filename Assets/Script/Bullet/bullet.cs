@@ -1,33 +1,54 @@
-using System;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class bullet : MonoBehaviour
 {
-    private GameObject gameObject;
-    private Vector2 direction = Vector2.right;
     private Rigidbody2D rb;
-    public float speed = 100;
+    public float speed = 15f; // 100 ist für Rigidbody oft extrem schnell, 15-20 reicht meistens
 
-    private SpriteRenderer renderer;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        renderer = GetComponent<SpriteRenderer>();
     }
 
     public void Start()
     {
+        // Die Kugel fliegt einmalig in die Richtung, in die sie beim Instanziieren gedreht wurde.
+        // transform.right ist die lokale "Vorwärts"-Achse der Kugel.
+        if (rb != null)
+        {
+            rb.linearVelocity = transform.right * speed;
+        }
+
         Destroy(gameObject, 2f);
     }
 
-    // Update is called once per frame
-    void Update()
+    // Die Update-Methode löschen wir komplett! 
+    // Wenn man rb.linearVelocity in jedem Frame überschreibt, 
+    // kann die Kugel sich nicht mehr frei durch die Physik bewegen.
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        rb.linearVelocity = direction * speed;
-        renderer.flipX = direction.x < 0;
+        // Gibt in der Konsole aus, was die Kugel berührt, falls sie stecken bleibt
+        print("Kugel berührt: " + other.gameObject.name);
+
+        if (other.CompareTag("MainPlayer"))
+        {
+            Player player = other.gameObject.GetComponent<Player>();
+            if (player != null)
+            {
+                player.takeDmg(20);
+            }
+            Destroy(gameObject);
+        }
+        // Ignoriert den Sniper selbst (Achte auf exakte Schreibweise oder nutze Tags)
+        else if (other.CompareTag("Enemy") || other.gameObject.name == "sniper")
+        {
+            return; // Tu nichts, flieg weiter!
+        }
+        else
+        {
+            // Bei Wänden oder Boden löschen
+            Destroy(gameObject);
+        }
     }
 }

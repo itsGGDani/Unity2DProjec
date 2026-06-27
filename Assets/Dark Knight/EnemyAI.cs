@@ -92,7 +92,7 @@ public class EnemyAI : MonoBehaviour
 
     public void attack()
     {
-        player p = target.gameObject.GetComponent<player>();
+        Player p = target.gameObject.GetComponent<Player>();
         if (p)
         {
             p.takeDmg(atkDmg);
