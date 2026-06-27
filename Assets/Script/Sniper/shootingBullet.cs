@@ -67,8 +67,6 @@ public class shootingBullet : MonoBehaviour
                 // Die Kugel fliegt immer nach "vorne" (X-Achse / right) des jeweiligen Launchers
                 rb.linearVelocity = activeShootPoint.right * bulletSpeed;
             }
-
-            
         }
     }
 

@@ -38,7 +38,7 @@ public class bullet : MonoBehaviour
             {
                 player.takeDmg(20);
             }
-            Destroy(gameObject);
+            Destroy(gameObject, 0f);
         }
         // Ignoriert den Sniper selbst (Achte auf exakte Schreibweise oder nutze Tags)
         else if (other.CompareTag("Enemy") || other.gameObject.name == "sniper")
