@@ -25,7 +25,6 @@ public class bullet : MonoBehaviour
     // Die Update-Methode löschen wir komplett! 
     // Wenn man rb.linearVelocity in jedem Frame überschreibt, 
     // kann die Kugel sich nicht mehr frei durch die Physik bewegen.
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Gibt in der Konsole aus, was die Kugel berührt, falls sie stecken bleibt
