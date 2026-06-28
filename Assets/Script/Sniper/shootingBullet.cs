@@ -10,12 +10,10 @@ public class shootingBullet : MonoBehaviour
     public float firerate = 1f;
     public LayerMask targetLayer;
 
-    // sniperShootLeft/Right sollten Child-Objekte deines rotationPoint sein, 
-    // damit sie sich mitdrehen!
-    public Transform sniperShootLeft;
-    public Transform sniperShootRight;
+    // Du brauchst nur noch EINEN Punkt am Ende des Laufs!
+    public Transform sniperShootPoint;
 
-    public float bulletSpeed = 15f; // Von int auf float geändert und im Code genutzt
+    public float bulletSpeed = 15f;
 
     public Transform rotationPoint;
     private Transform currentTarget;
@@ -23,9 +21,11 @@ public class shootingBullet : MonoBehaviour
 
     private void Awake()
     {
-        // Um das drecks ding zu Finden (Suche im gesamten Objektbaum)
-        if (sniperShootRight == null) sniperShootRight = transform.Find("sniperShootRight");
-        if (sniperShootLeft == null) sniperShootLeft = transform.Find("sniperShootLeft");
+        if (sniperShootPoint == null)
+        {
+            sniperShootPoint = transform.Find("sniperShootRight");
+            if (sniperShootPoint == null) sniperShootPoint = transform.Find("bulletPos");
+        }
     }
 
     void Update()
@@ -46,26 +46,14 @@ public class shootingBullet : MonoBehaviour
     {
         Debug.Log("I NEED MORE BULLETS");
 
-        if (bulletPrefab != null)
+        if (bulletPrefab != null && sniperShootPoint != null)
         {
-            // 1. Richtigen Spawnpoint wählen (ist der Gegner links oder rechts vom Sniper?)
-            Transform activeShootPoint = sniperShootRight; // Standard rechts
+            // Spawnt direkt am vorderen Punkt und nutzt dessen gedrehte Richtung
+            GameObject bullet = Instantiate(bulletPrefab, sniperShootPoint.position, sniperShootPoint.rotation);
 
-            if (currentTarget.position.x < transform.position.x)
-            {
-                activeShootPoint = sniperShootLeft; // Gegner ist links
-            }
-
-            if (activeShootPoint == null) return;
-
-            // 2. Kugel DIREKT am richtigen Punkt mit der richtigen Rotation spawnen
-            GameObject bullet = Instantiate(bulletPrefab, activeShootPoint.position, activeShootPoint.rotation);
-
-            // 3. Rigidbody prüfen (Muss != null sein!)
             if (bullet.TryGetComponent<Rigidbody2D>(out var rb))
             {
-                // Die Kugel fliegt immer nach "vorne" (X-Achse / right) des jeweiligen Launchers
-                rb.linearVelocity = activeShootPoint.right * bulletSpeed;
+                rb.linearVelocity = sniperShootPoint.right * bulletSpeed;
             }
         }
     }
@@ -89,14 +77,11 @@ public class shootingBullet : MonoBehaviour
         if (rotationPoint == null) return;
 
         Vector2 dir = currentTarget.position - rotationPoint.position;
-
-        // WICHTIG: Erst Y, dann X!
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
         rotationPoint.rotation = Quaternion.Euler(0, 0, angle);
     }
 
-    // Damit du die Range im Editor siehst
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
